@@ -1,0 +1,12 @@
+repos:
+  - repo: https://github.com/dmytro-kucherenko/smartner-utils-package
+    rev: ef457a5
+    hooks:
+      - id: check-types
+        name: Check types
+        language: golang
+        entry: go vet ./...
+        files: \.go$
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
