@@ -13,7 +13,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout actions
+      - name: Set up actions
         uses: actions/checkout@v4
 
       - name: Set up SDK
