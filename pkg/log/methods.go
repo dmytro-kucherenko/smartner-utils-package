@@ -5,6 +5,6 @@ import (
 	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/log/types"
 )
 
-func New(name string) types.Logger {
+func New(name string) types.A {
 	return services.NewConsole(name)
 }
