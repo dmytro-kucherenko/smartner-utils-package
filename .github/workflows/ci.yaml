@@ -10,7 +10,7 @@ on:
       - 'main'
 
 jobs:
-  lint:
+  Linting:
     runs-on: ubuntu-latest
     steps:
       - name: Set up actions
