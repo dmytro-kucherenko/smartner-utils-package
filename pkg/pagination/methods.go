@@ -20,7 +20,7 @@ func GetPageMeasures(total uint64, query dtos.PageQueryRequest) (measures PageMe
 
 	offset := (page - 1) * limit
 	if offset >= total && (total != 0 || page != 1) {
-		err = errors.NewHttpError(http.StatusBadRequest, "Page is out of bounds.")
+		err = errors.NewHttpError(http.StatusBadRequest, MessageOutOfBounds)
 
 		return
 	}
