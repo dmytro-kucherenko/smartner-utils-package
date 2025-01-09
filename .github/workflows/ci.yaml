@@ -19,8 +19,14 @@ jobs:
       - name: Set up SDK
         uses: actions/setup-go@v4
         with:
-          path: ~/go/pkg/mod
           go-version: 1.23.2
+
+      - name: Cache Go modules
+        uses: actions/cache@v3
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-go-
 
       - name: Download packages
         run: go mod download
