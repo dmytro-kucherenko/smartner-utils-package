@@ -1,2 +1,2 @@
 pre-commit:
-	@pre-commit install
+	@pre-commit autoupdate && pre-commit install
