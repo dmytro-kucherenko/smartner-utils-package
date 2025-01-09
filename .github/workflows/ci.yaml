@@ -10,22 +10,22 @@ on:
       - 'main'
 
 jobs:
-  lint:
+  Linting:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Set up actions
         uses: actions/checkout@v4
 
-      - name: Set up Go
+      - name: Set up SDK
         uses: actions/setup-go@v4
         with:
           go-version: 1.23.2
 
-      - name: Run go vet
+      - name: Download packages
+        run: go mod download
+
+      - name: Check types
         run: go vet ./...
 
-      - name: Run go mod tidy
-        run: go mod tidy
-
-      - name: Check for go.mod changes
-        run: git diff --exit-code go.mod go.sum
+      - name: Check packages
+        run: go mod tidy && git diff --exit-code go.mod go.sum
