@@ -6,6 +6,7 @@ tmp
 
 # Build
 bin
+vendor
 
 # Environment
 .env
