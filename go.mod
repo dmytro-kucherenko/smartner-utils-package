@@ -9,8 +9,11 @@ require (
 
 require github.com/google/uuid v1.6.0
 
+require github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
+
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
+	github.com/aws/aws-lambda-go v1.47.0
 	github.com/bytedance/sonic v1.12.3 // indirect
 	github.com/bytedance/sonic/loader v0.2.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
