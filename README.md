@@ -1,3 +1,5 @@
 # Smartner Utilities Package
 
-- Includes modules to conveniently maintain services
+### Includes:
+
+- Modules to conveniently maintain services
