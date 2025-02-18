@@ -31,8 +31,7 @@ type RequestMeta struct {
 	Session *Session `json:"session"`
 }
 
-type StartupOptions[R any] struct {
-	Router          *R
+type StartupOptions struct {
 	Server          *http.Server
 	Logger          types.Logger
 	ShutdownTimeout time.Duration
