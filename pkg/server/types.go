@@ -5,7 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/log/types"
+	loggerTypes "github.com/dmytro-kucherenko/smartner-utils-package/pkg/log/types"
+	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/types"
 )
 
 type RequestOptions[B any, P any, Q any] struct {
@@ -24,7 +25,7 @@ type RequestConfig[M any] struct {
 type Request[R any, B any, P any, Q any] func(data *RequestOptions[B, P, Q]) (result R, err error)
 
 type Session struct {
-	UserID int `mapstructure:"userId" validate:"required,uuid4"`
+	UserID types.ID `mapstructure:"userId" validate:"required,uuid4"`
 }
 
 type RequestMeta struct {
@@ -33,6 +34,6 @@ type RequestMeta struct {
 
 type StartupOptions struct {
 	Server          *http.Server
-	Logger          types.Logger
+	Logger          loggerTypes.Logger
 	ShutdownTimeout time.Duration
 }
