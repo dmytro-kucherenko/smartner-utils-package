@@ -6,21 +6,8 @@ import (
 
 type ID = uuid.UUID
 
-type IDBind struct {
-	value ID
-}
+type IDBind string
 
-func (bind *IDBind) UnmarshalParam(param string) error {
-	UUID, err := uuid.Parse(param)
-	if err != nil {
-		return err
-	}
-
-	bind.value = ID(UUID)
-
-	return nil
-}
-
-func (bind IDBind) Value() ID {
-	return bind.value
+func (bind *IDBind) Parse() (ID, error) {
+	return uuid.Parse(string(*bind))
 }
