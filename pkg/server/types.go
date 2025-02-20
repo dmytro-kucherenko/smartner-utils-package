@@ -24,11 +24,11 @@ type RequestConfig[M any] struct {
 type Request[R any, B any, P any, Q any] func(data *RequestOptions[B, P, Q]) (result R, err error)
 
 type Session struct {
-	UserID int `json:"userId" validate:"required"`
+	UserID int `mapstructure:"userId" validate:"required,uuid4"`
 }
 
 type RequestMeta struct {
-	Session *Session `json:"session"`
+	Session *Session
 }
 
 type StartupOptions struct {
