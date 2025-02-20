@@ -37,7 +37,10 @@ func TransformSchemaToData[T any](schema any) T {
 		schemaField := schemaValue.Field(i)
 
 		if dataField.Type == reflect.TypeOf((*types.ID)(nil)).Elem() {
-			data.Field(i).Set(reflect.ValueOf(schemaField.Interface().(types.IDBind).Value()))
+			bind := schemaField.Interface().(types.IDBind)
+			value, _ := bind.Parse()
+
+			data.Field(i).Set(reflect.ValueOf(value))
 		} else {
 			data.Field(i).Set(schemaField)
 		}
