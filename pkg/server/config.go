@@ -26,7 +26,9 @@ func (config *RequestConfig[M]) WithMiddleware(middleware M) *RequestConfig[M] {
 	return config
 }
 
-func (config *RequestConfig[M]) MapRoute(path string, status int) {
+func (config *RequestConfig[M]) MapRoute(path string, status int) *RequestConfig[M] {
 	config.Path = path
 	config.Status = status
+
+	return config
 }
