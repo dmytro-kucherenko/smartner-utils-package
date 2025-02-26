@@ -6,7 +6,7 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-func validation(fl validator.FieldLevel) bool {
+func validatePassword(fl validator.FieldLevel) bool {
 	password := fl.Field().String()
 
 	matchUpper := regexp.MustCompile(`[A-Z]`).MatchString(password)
@@ -17,6 +17,6 @@ func validation(fl validator.FieldLevel) bool {
 	return matchUpper && matchLower && matchDigit && matchLength
 }
 
-func RegisterPassword(validate *validator.Validate, tag Tags) error {
-	return validate.RegisterValidation(string(tag), validation)
+func RegisterPassword(validate *validator.Validate, tag string) error {
+	return validate.RegisterValidation(tag, validatePassword)
 }

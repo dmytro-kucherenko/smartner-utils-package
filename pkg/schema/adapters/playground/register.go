@@ -1,8 +1,10 @@
-package validations
+package adapter
 
 import (
 	"fmt"
 
+	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/schema/adapters/playground/parsers"
+	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/schema/adapters/playground/validations"
 	"github.com/go-playground/validator/v10"
 )
 
@@ -13,7 +15,8 @@ const (
 )
 
 func Register(validate *validator.Validate) error {
-	err := RegisterPassword(validate, TagPassword)
+	parsers.RegisterID(validate)
+	err := validations.RegisterPassword(validate, string(TagPassword))
 	if err != nil {
 		return err
 	}
