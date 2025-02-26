@@ -28,6 +28,10 @@ func handle[R any, B any, P any, Q any](
 			return
 		}
 
+		if options.Meta.Session == nil {
+			options.Meta.Session = &server.Session{}
+		}
+
 		abortValidationError := func(err error) {
 			context.Error(errors.NewHttpError(http.StatusBadRequest, "Validation Error", err.Error()))
 			context.Abort()
