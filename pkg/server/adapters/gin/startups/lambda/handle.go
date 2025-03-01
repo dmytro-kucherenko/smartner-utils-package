@@ -18,5 +18,12 @@ func handle(request events.APIGatewayProxyRequest) (meta server.RequestMeta) {
 
 	meta.Session = &session
 
+	timeZone := request.Headers["TimeZone"]
+	if timeZone != "" {
+		meta.TimeZone = timeZone
+	} else {
+		meta.TimeZone = "UTC"
+	}
+
 	return
 }
