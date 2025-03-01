@@ -10,6 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const DefaultTimeZone = "UTC"
+
 func handle[R any, B any, P any, Q any](
 	request server.Request[R, B, P, Q],
 	options *RequestConfig,
@@ -35,6 +37,18 @@ func handle[R any, B any, P any, Q any](
 		abortValidationError := func(err error) {
 			context.Error(errors.NewHttpError(http.StatusBadRequest, "Validation Error", err.Error()))
 			context.Abort()
+		}
+
+		header, err := common.DecodeStruct[server.RequestHeader](context.Request.Header)
+		if err != nil {
+			abortValidationError(err)
+
+			return
+		}
+
+		timeZone := DefaultTimeZone
+		if len(header.TimeZone) > 0 {
+			timeZone = header.TimeZone[0]
 		}
 
 		var body B
@@ -71,11 +85,12 @@ func handle[R any, B any, P any, Q any](
 		}
 
 		result, err := request(&server.RequestOptions[B, P, Q]{
-			Body:    body,
-			Params:  params,
-			Query:   query,
-			Ctx:     context.Request.Context(),
-			Session: *options.Meta.Session,
+			Body:     body,
+			Params:   params,
+			Query:    query,
+			Ctx:      context.Request.Context(),
+			Session:  *options.Meta.Session,
+			TimeZone: timeZone,
 		})
 
 		if err != nil {

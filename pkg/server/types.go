@@ -9,12 +9,17 @@ import (
 	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/types"
 )
 
+type RequestHeader struct {
+	TimeZone []string `json:"TimeZone" mapstructure:"timeZone" validate:"omitempty,max=1,dive,timezone"`
+}
+
 type RequestOptions[B any, P any, Q any] struct {
-	Body    B
-	Params  P
-	Query   Q
-	Ctx     context.Context
-	Session Session
+	Body     B
+	Params   P
+	Query    Q
+	Ctx      context.Context
+	Session  Session
+	TimeZone string
 }
 
 type Request[R any, B any, P any, Q any] func(data *RequestOptions[B, P, Q]) (result R, err error)
@@ -24,8 +29,7 @@ type Session struct {
 }
 
 type RequestMeta struct {
-	Session  *Session
-	TimeZone string `json:"timeZone" mapstructure:"timeZone" validate:"omitempty,timezone"`
+	Session *Session
 }
 
 type StartupOptions struct {
