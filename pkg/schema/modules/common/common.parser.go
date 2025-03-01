@@ -8,7 +8,7 @@ import (
 )
 
 func ModifySchema[T any](data T) any {
-	return utils.ChangeSchema(data, func(nodeValue reflect.Value) (newType reflect.Value, isChanged bool) {
+	return utils.ModifySchema(data, func(nodeValue reflect.Value) (newType reflect.Value, isChanged bool) {
 		if nodeValue.Type() == reflect.TypeOf((*types.ID)(nil)).Elem() {
 			return reflect.New(reflect.TypeOf((types.IDBind)(""))).Elem(), true
 		}

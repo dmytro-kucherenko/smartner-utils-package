@@ -9,7 +9,7 @@ type RequestConfig[M any] struct {
 }
 
 func NewConfig[M any](meta RequestMeta) *RequestConfig[M] {
-	middlewares := make([]M, 2)
+	middlewares := make([]M, 0, 2)
 
 	return &RequestConfig[M]{Meta: meta, Middlewares: middlewares}
 }

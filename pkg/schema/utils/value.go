@@ -1,6 +1,8 @@
 package utils
 
-import "reflect"
+import (
+	"reflect"
+)
 
 func BuildValue(nodeValue reflect.Value, handle func(nodeValue reflect.Value) (reflect.Value, bool)) reflect.Value {
 	value, isChanged := handle(nodeValue)
@@ -66,11 +68,15 @@ func BuildValue(nodeValue reflect.Value, handle func(nodeValue reflect.Value) (r
 	case reflect.Map:
 		keyValue := reflect.New(nodeValue.Type().Key()).Elem()
 		elemValue := reflect.New(nodeValue.Type().Elem()).Elem()
+		newKey := BuildValue(keyValue, handle)
+		newElem := BuildValue(elemValue, handle)
+		mapType := reflect.MapOf(newKey.Type(), newElem.Type())
+
 		if nodeValue.IsNil() {
-			return reflect.New(reflect.MapOf(keyValue.Type(), elemValue.Type())).Elem()
+			return reflect.New(mapType).Elem()
 		}
 
-		mapValue := reflect.MakeMap(reflect.MapOf(keyValue.Type(), elemValue.Type()))
+		mapValue := reflect.MakeMap(mapType)
 		for _, key := range nodeValue.MapKeys() {
 			elem := nodeValue.MapIndex(key)
 
@@ -128,7 +134,12 @@ func FillValue(nodeValue reflect.Value, fillerValue reflect.Value) reflect.Value
 		return nodeValue
 	case reflect.Map:
 		for _, key := range fillerValue.MapKeys() {
-			nodeElem := nodeValue.MapIndex(key)
+			if nodeValue.IsNil() {
+				mapType := reflect.MapOf(nodeValue.Type().Key(), nodeValue.Type().Elem())
+				nodeValue.Set(reflect.MakeMap(mapType))
+			}
+
+			nodeElem := reflect.New(nodeValue.Type().Elem()).Elem()
 			fillerElem := fillerValue.MapIndex(key)
 
 			nodeValue.SetMapIndex(key, FillValue(nodeElem, fillerElem))

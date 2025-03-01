@@ -1,17 +1,19 @@
 package utils
 
-import "reflect"
+import (
+	"reflect"
+)
 
-func ChangeSchema[T any](data T, callback func(nodeType reflect.Value) (reflect.Value, bool)) any {
+func ModifySchema[T any](data T, handle func(nodeType reflect.Value) (reflect.Value, bool)) any {
 	value := reflect.ValueOf(data)
-	newValue := BuildValue(value, callback)
+	newValue := BuildValue(value, handle)
 
 	return newValue.Addr().Interface()
 }
 
-func ParseSchema[R any](data any, callback func(nodeType reflect.Value) (reflect.Value, bool)) R {
+func ParseSchema[R any](data any, handle func(nodeType reflect.Value) (reflect.Value, bool)) R {
 	value := reflect.ValueOf(data).Elem()
-	filler := BuildValue(value, callback)
+	filler := BuildValue(value, handle)
 
 	typed := reflect.New(reflect.TypeOf((*R)(nil)).Elem()).Elem()
 	FillValue(typed, filler)

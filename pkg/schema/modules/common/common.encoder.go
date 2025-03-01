@@ -7,7 +7,7 @@ import (
 )
 
 func DecodeStruct[T any](data any) (result T, err error) {
-	schema := ModifySchema(data)
+	schema := ModifySchema(result)
 	err = utils.DecodeStruct(data, schema)
 	if err != nil {
 		return
