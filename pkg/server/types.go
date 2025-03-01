@@ -20,7 +20,8 @@ type RequestOptions[B any, P any, Q any] struct {
 type Request[R any, B any, P any, Q any] func(data *RequestOptions[B, P, Q]) (result R, err error)
 
 type Session struct {
-	UserID types.ID `mapstructure:"userId" validate:"required,uuid4"`
+	UserID   types.ID `json:"userId" mapstructure:"userId" validate:"required,uuid4"`
+	TimeZone string   `json:"timeZone" mapstructure:"timeZone" validate:"required,timezone"`
 }
 
 type RequestMeta struct {
