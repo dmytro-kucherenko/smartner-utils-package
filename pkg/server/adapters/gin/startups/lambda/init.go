@@ -24,7 +24,7 @@ func Init(create func(logger types.Logger, meta server.RequestMeta) (adapter.Sta
 
 		if err != nil {
 			var response dtos.ErrorResponse
-			httpErr, ok := err.(errors.HttpError)
+			httpErr, ok := err.(*errors.HttpError)
 
 			if ok {
 				response = dtos.ErrorResponse{
