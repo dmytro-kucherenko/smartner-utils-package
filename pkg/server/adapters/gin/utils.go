@@ -34,7 +34,7 @@ func CreateRoutes(router *gin.Engine, prefix string, logger types.Logger) *gin.R
 	api := router.Group(prefix)
 	api.Use(middlewares.Logger(), middlewares.Error())
 
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	logger.Info("Docs path: /swagger/index.html")
 
 	return api
