@@ -7,14 +7,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func Init[T any](path string, getSchema func() T) T {
+func Init[T any](path string, getSchema func() T) (T, error) {
 	godotenv.Load(path)
 	validate := validator.New()
 	schema := getSchema()
 
 	if err := validate.Struct(schema); err != nil {
-		panic(fmt.Sprintln("Enviromental variables error:", err.Error()))
+		return schema, fmt.Errorf("enviromental variables error: %v", err.Error())
 	}
 
-	return schema
+	return schema, nil
 }

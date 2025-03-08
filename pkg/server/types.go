@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	loggerTypes "github.com/dmytro-kucherenko/smartner-utils-package/pkg/log/types"
 	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/types"
 )
 
@@ -34,6 +33,5 @@ type RequestMeta struct {
 
 type StartupOptions struct {
 	Server          *http.Server
-	Logger          loggerTypes.Logger
 	ShutdownTimeout time.Duration
 }

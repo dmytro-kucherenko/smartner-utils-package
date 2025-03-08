@@ -1,6 +1,7 @@
 package adapter
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/schema/adapters/playground/parsers"
@@ -24,14 +25,16 @@ func Register(validate *validator.Validate) error {
 	return nil
 }
 
-func TryRegister(validate any) {
+func TryRegister(validate any) error {
 	validator, ok := validate.(*validator.Validate)
 	if !ok {
-		panic("Invalid validator error")
+		return errors.New("invalid validator error")
 	}
 
 	err := Register(validator)
 	if err != nil {
-		panic(fmt.Sprintln("Validation registration error:", err.Error()))
+		return fmt.Errorf("validation registration error: %v", err.Error())
 	}
+
+	return nil
 }
