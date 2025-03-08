@@ -15,11 +15,11 @@ func Error() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		defer func() {
 			if err := recover(); err != nil {
-				logger.Fatal("Panic Recovery:", err)
+				logger.Fatal("panic Recovery:", err)
 
 				context.JSON(http.StatusInternalServerError, &dtos.ErrorResponse{
 					Status:  http.StatusInternalServerError,
-					Message: "Internal Server Error",
+					Message: "internal Server Error",
 				})
 			}
 		}()
@@ -34,9 +34,10 @@ func Error() gin.HandlerFunc {
 					Details: httpErr.Details(),
 				})
 			} else {
+				logger.Error(err.Err.Error())
 				context.JSON(http.StatusInternalServerError, &dtos.ErrorResponse{
 					Status:  http.StatusInternalServerError,
-					Message: "Internal Server Error",
+					Message: "internal Server Error",
 				})
 			}
 
@@ -46,7 +47,7 @@ func Error() gin.HandlerFunc {
 		if !context.Writer.Written() {
 			context.JSON(http.StatusNotImplemented, &dtos.ErrorResponse{
 				Status:  http.StatusNotImplemented,
-				Message: "Method did not have response.",
+				Message: "method did not have response.",
 			})
 		}
 	}

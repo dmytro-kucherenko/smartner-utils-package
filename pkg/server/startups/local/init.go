@@ -1,9 +1,14 @@
 package startup
 
 import (
+	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/log"
 	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/server"
 )
 
 func Init(options server.StartupOptions) {
-	server.ServeGracefully(options.Server, options.Logger, options.ShutdownTimeout)
+	logger := log.New("Init")
+	err := server.ServeGracefully(options.Server, logger, options.ShutdownTimeout)
+	if err != nil {
+		panic(err.Error())
+	}
 }
