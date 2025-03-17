@@ -15,11 +15,11 @@ func Error() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		defer func() {
 			if err := recover(); err != nil {
-				logger.Fatal("panic Recovery:", err)
+				logger.Error("panic recovery:", err)
 
 				context.JSON(http.StatusInternalServerError, &dtos.ErrorResponse{
 					Status:  http.StatusInternalServerError,
-					Message: "internal Server Error",
+					Message: "internal server error",
 				})
 			}
 		}()
@@ -37,7 +37,7 @@ func Error() gin.HandlerFunc {
 				logger.Error(err.Err.Error())
 				context.JSON(http.StatusInternalServerError, &dtos.ErrorResponse{
 					Status:  http.StatusInternalServerError,
-					Message: "internal Server Error",
+					Message: "internal server error",
 				})
 			}
 

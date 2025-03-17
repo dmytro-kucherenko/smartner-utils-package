@@ -14,3 +14,9 @@ func GetEnvInt(key string) int {
 
 	return value
 }
+
+func GetEnvBool(key string) bool {
+	value := GetEnvInt(key)
+
+	return value != 0
+}
