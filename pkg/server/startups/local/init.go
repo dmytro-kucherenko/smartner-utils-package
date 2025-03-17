@@ -14,6 +14,12 @@ func InitWithMeta(create func(logger types.Logger, meta server.RequestMeta) (ser
 		panic(err.Error())
 	}
 
+	if options.OnlyConfig {
+		logger.Info("config was checked")
+
+		return
+	}
+
 	err = server.ServeGracefully(options.Server, logger, options.ShutdownTimeout)
 	if err != nil {
 		panic(err.Error())

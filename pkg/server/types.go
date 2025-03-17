@@ -34,4 +34,5 @@ type RequestMeta struct {
 type StartupOptions struct {
 	Server          *http.Server
 	ShutdownTimeout time.Duration
+	OnlyConfig      bool
 }

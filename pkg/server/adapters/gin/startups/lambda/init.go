@@ -38,7 +38,7 @@ func Init(create func(logger types.Logger, meta server.RequestMeta) (adapter.Sta
 					Message: "internal server error",
 				}
 
-				logger.Fatal(err.Error())
+				logger.Error(err.Error())
 			}
 
 			body, _ := json.Marshal(response)
@@ -47,6 +47,12 @@ func Init(create func(logger types.Logger, meta server.RequestMeta) (adapter.Sta
 				StatusCode: response.Status,
 				Headers:    map[string]string{"Content-Type": "application/json"},
 				Body:       string(body),
+			}, nil
+		}
+
+		if options.OnlyConfig {
+			return events.APIGatewayProxyResponse{
+				StatusCode: http.StatusOK,
 			}, nil
 		}
 
