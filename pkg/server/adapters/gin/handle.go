@@ -2,7 +2,6 @@ package adapter
 
 import (
 	"net/http"
-	"reflect"
 
 	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/schema/modules/common"
 	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/server"
@@ -12,8 +11,8 @@ import (
 
 const DefaultTimeZone = "UTC"
 
-func handle[R any, B any, P any, Q any](
-	request server.Request[R, B, P, Q],
+func handle[R any, P any](
+	request server.Request[R, P],
 	options *RequestConfig,
 	validateBody bool,
 ) []gin.HandlerFunc {
@@ -51,43 +50,37 @@ func handle[R any, B any, P any, Q any](
 			timeZone = header.TimeZone[0]
 		}
 
-		var body B
-		if validateBody {
-			if err := context.ShouldBindJSON(&body); err != nil {
-				abortValidationError(err)
-
-				return
-			}
-		}
-
 		var params P
-		if paramsType := reflect.TypeOf(params); paramsType != nil {
-			paramsSchema := common.ModifySchema(params)
-			if err := context.ShouldBindUri(paramsSchema); err != nil {
+		paramsSchema := common.ModifySchema(params)
+		if validateBody {
+			if err := context.ShouldBind(paramsSchema); err != nil {
 				abortValidationError(err)
 
 				return
 			}
-
-			params = common.ParseSchema[P](paramsSchema)
 		}
 
-		var query Q
-		if queryType := reflect.TypeOf(query); queryType != nil {
-			querySchema := common.ModifySchema(query)
-			if err := context.ShouldBindQuery(querySchema); err != nil {
-				abortValidationError(err)
+		if err := context.ShouldBindUri(paramsSchema); err != nil {
+			abortValidationError(err)
 
-				return
-			}
-
-			query = common.ParseSchema[Q](querySchema)
+			return
 		}
 
-		result, err := request(&server.RequestOptions[B, P, Q]{
-			Body:     body,
+		if err := context.ShouldBindQuery(paramsSchema); err != nil {
+			abortValidationError(err)
+
+			return
+		}
+
+		params = common.ParseSchema[P](paramsSchema)
+		if err := options.Meta.Validator.Make(params); err != nil {
+			abortValidationError(err)
+
+			return
+		}
+
+		result, err := request(&server.RequestOptions[P]{
 			Params:   params,
-			Query:    query,
 			Ctx:      context.Request.Context(),
 			Session:  *options.Meta.Session,
 			TimeZone: timeZone,
