@@ -12,23 +12,26 @@ type RequestHeader struct {
 	TimeZone []string `json:"TimeZone" mapstructure:"timeZone" validate:"omitempty,max=1,dive,timezone"`
 }
 
-type RequestOptions[B any, P any, Q any] struct {
-	Body     B
+type RequestOptions[P any] struct {
 	Params   P
-	Query    Q
 	Ctx      context.Context
 	Session  Session
 	TimeZone string
 }
 
-type Request[R any, B any, P any, Q any] func(data *RequestOptions[B, P, Q]) (result R, err error)
+type Request[R any, P any] func(data *RequestOptions[P]) (result R, err error)
 
 type Session struct {
 	UserID types.ID `json:"userId" mapstructure:"userId" validate:"required,uuid4"`
 }
 
+type ParamsValidator interface {
+	Make(data any) error
+}
+
 type RequestMeta struct {
-	Session *Session
+	Session   *Session
+	Validator ParamsValidator
 }
 
 type StartupOptions struct {

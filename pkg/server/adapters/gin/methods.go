@@ -5,18 +5,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Get[R any, B any, P any, Q any](router *gin.RouterGroup, request server.Request[R, B, P, Q], options *RequestConfig) {
+func Get[R any, P any](router *gin.RouterGroup, request server.Request[R, P], options *RequestConfig) {
 	router.GET(options.Path, handle(request, options, false)...)
 }
 
-func Post[R any, B any, P any, Q any](router *gin.RouterGroup, request server.Request[R, B, P, Q], options *RequestConfig) {
+func Post[R any, P any](router *gin.RouterGroup, request server.Request[R, P], options *RequestConfig) {
 	router.POST(options.Path, handle(request, options, true)...)
 }
 
-func Put[R any, B any, P any, Q any](router *gin.RouterGroup, request server.Request[R, B, P, Q], options *RequestConfig) {
+func Put[R any, P any](router *gin.RouterGroup, request server.Request[R, P], options *RequestConfig) {
 	router.PUT(options.Path, handle(request, options, true)...)
 }
 
-func Delete[R any, B any, P any, Q any](router *gin.RouterGroup, request server.Request[R, B, P, Q], options *RequestConfig) {
+func Delete[R any, P any](router *gin.RouterGroup, request server.Request[R, P], options *RequestConfig) {
 	router.DELETE(options.Path, handle(request, options, false)...)
 }

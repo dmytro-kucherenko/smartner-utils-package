@@ -38,3 +38,13 @@ func TryRegister(validate any) error {
 
 	return nil
 }
+
+func New() (*validator.Validate, error) {
+	validate := validator.New()
+	err := Register(validate)
+	if err != nil {
+		return nil, err
+	}
+
+	return validate, nil
+}
