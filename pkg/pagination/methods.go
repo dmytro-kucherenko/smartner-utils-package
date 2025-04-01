@@ -7,7 +7,7 @@ import (
 	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/server/errors"
 )
 
-func GetPageMeasures(total uint64, query dtos.PageQueryRequest) (measures PageMeasures, err error) {
+func GetPageMeasures(total uint64, query dtos.PageParams) (measures PageMeasures, err error) {
 	var page uint64 = 1
 	if query.Page != nil {
 		page = *query.Page
@@ -30,8 +30,8 @@ func GetPageMeasures(total uint64, query dtos.PageQueryRequest) (measures PageMe
 	return
 }
 
-func GetPageMeta(total uint64, measures PageMeasures) dtos.PageMetaResponse {
-	meta := dtos.PageMetaResponse{
+func GetPageMeta(total uint64, measures PageMeasures) dtos.PageMeta {
+	meta := dtos.PageMeta{
 		Total: total,
 		Page:  measures.Page,
 		Size:  measures.Size,
