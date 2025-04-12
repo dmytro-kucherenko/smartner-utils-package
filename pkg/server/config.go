@@ -1,27 +1,19 @@
 package server
 
 type RequestConfig[M any] struct {
-	Path           string
-	Status         int
-	Middlewares    []M
-	Meta           RequestMeta
-	ProvideSession bool
+	Path         string
+	Status       int
+	Interceptors []M
 }
 
-func NewConfig[M any](meta RequestMeta) *RequestConfig[M] {
-	middlewares := make([]M, 0, 2)
+func NewConfig[I any]() *RequestConfig[I] {
+	interceptors := make([]I, 0)
 
-	return &RequestConfig[M]{Meta: meta, Middlewares: middlewares}
+	return &RequestConfig[I]{Interceptors: interceptors}
 }
 
-func (config *RequestConfig[M]) WithSession() *RequestConfig[M] {
-	config.ProvideSession = true
-
-	return config
-}
-
-func (config *RequestConfig[M]) WithMiddleware(middleware M) *RequestConfig[M] {
-	config.Middlewares = append(config.Middlewares, middleware)
+func (config *RequestConfig[I]) WithInterceptor(interceptors ...I) *RequestConfig[I] {
+	config.Interceptors = append(config.Interceptors, interceptors...)
 
 	return config
 }

@@ -7,6 +7,6 @@ import (
 
 type RequestConfig = server.RequestConfig[gin.HandlerFunc]
 
-func NewConfig(meta server.RequestMeta) *RequestConfig {
-	return server.NewConfig[gin.HandlerFunc](meta)
+func NewConfig() *RequestConfig {
+	return server.NewConfig[gin.HandlerFunc]()
 }

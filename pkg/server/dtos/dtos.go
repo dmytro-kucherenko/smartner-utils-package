@@ -1,6 +1,6 @@
 package dtos
 
-type ErrorResponse struct {
+type ErrorItem struct {
 	Status  int      `json:"status"`
 	Message string   `json:"message"`
 	Details []string `json:"details"`
