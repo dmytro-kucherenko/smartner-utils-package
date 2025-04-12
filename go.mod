@@ -11,7 +11,7 @@ require (
 
 require github.com/google/uuid v1.6.0
 
-require buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250307204501-0409229c3780.1
+require buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250307204501-0409229c3780.1 // indirect
 
 require (
 	cel.dev/expr v0.19.1 // indirect
