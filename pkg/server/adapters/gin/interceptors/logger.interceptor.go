@@ -1,4 +1,4 @@
-package middlewares
+package interceptors
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 )
 
 func Logger() gin.HandlerFunc {
-	logger := log.New("Route")
+	logger := log.New("route")
 
 	return func(context *gin.Context) {
 		start := time.Now()
