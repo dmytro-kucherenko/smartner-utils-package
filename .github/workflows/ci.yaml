@@ -1,9 +1,9 @@
-name: Pull Request Actions
+name: Main Pull Request Actions
 
 on:
   pull_request:
     branches:
-      - '**'
+      - main
 
 jobs:
   linting:
