@@ -3,7 +3,6 @@ package interceptors
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"github.com/dmytro-kucherenko/smartner-utils-package/pkg/meta"
 	"google.golang.org/grpc"
@@ -16,8 +15,6 @@ func OptionsUnary() func(ctx context.Context, req interface{}, info *grpc.UnaryS
 		if !ok {
 			return nil, errors.New("metadata not found")
 		}
-
-		fmt.Println(md)
 
 		ctx, err := meta.SetOptionsMetadataContext(ctx, md)
 		if err != nil {
